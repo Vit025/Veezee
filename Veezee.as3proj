@@ -17,6 +17,7 @@
   <classpaths>
     <class path="src" />
     <class path="D:\work\AS3_STANDARTS" />
+    <class path="D:\work\extended\mvcExpress" />
   </classpaths>
   <!-- Build options -->
   <build>
@@ -54,6 +55,8 @@
   <!-- SWC Libraries -->
   <libraryPaths>
     <element path="D:\work\AS3_STANDARTS\greensock.swc" />
+    <element path="D:\work\extended\mvcExpress\mvcExpress-debug_v2_0_rc3.swc" />
+    <element path="D:\work\extended\mvcExpress\mvcExpress_v2_0_rc3-logger_v1_3.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

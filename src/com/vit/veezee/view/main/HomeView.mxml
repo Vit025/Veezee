@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:power="com.vit.veezee.view.buttons.power.*"
+			   width="100%" height="100%" skinClass="com.vit.veezee.view.main.HomeViewSkin">
+			   
+    <fx:Script>
+        <![CDATA[         
+			import com.greensock.TweenMax;
+			import flash.events.MouseEvent;
+			import flash.geom.Point;
+			
+			private var isOn:Boolean = false;
+			
+			private function onPowerButtonClick(event:MouseEvent):void
+			{
+				//var p:Point = new Point(cameraButtonView.x, cameraButtonView.y);
+				var p:Point;
+				if (isOn)
+				{
+					TweenMax.to(powerButton, 6, { x:((border.width - powerButton.width) >> 1), y:((border.height - powerButton.height) >> 1), scaleX:1, scaleY:1, useFrames:true, onComplete:onOffTweenComplete } );
+					isOn = false;
+				}
+				else
+				{
+					p = new Point(top.width - (powerButton.width >> 1), (top.height - (powerButton.height >> 1)) >> 1);
+					p = top.localToGlobal(p);
+					p = border.globalToLocal(p);
+					powerButton.horizontalCenter = powerButton.verticalCenter = NaN; 
+					powerButton.mouseChildren = false;
+					trace("VF >>", this,":: onPowerButtonClick:", top.width, powerButton.width);
+					TweenMax.to(powerButton, 6, { x:p.x, y:p.y, scaleX:.5, scaleY:.5, useFrames:true, onComplete:onOnTweenComplete } );
+					isOn = true;
+				}
+			}
+			
+			private function onOnTweenComplete():void 
+			{
+				powerButton.mouseChildren = true;
+				trace("VF >>", this,":: onOnTweenComplete:", top.width, powerButton.width * powerButton.scaleX);
+			}
+			
+			private function onOffTweenComplete():void
+			{
+				trace("VF >>", this,":: onOffTweenComplete:", top.width, powerButton.width * powerButton.scaleX);
+				powerButton.mouseChildren = true;
+				powerButton.horizontalCenter = powerButton.verticalCenter = 0;
+			}
+        ]]>        
+    </fx:Script>
+	
+	<s:layout>
+		<s:VerticalLayout horizontalAlign="center" />
+	</s:layout>
+	
+	<s:Group id="top" width="800" height="70" horizontalCenter="0">
+		
+	</s:Group>
+	<s:BorderContainer id="border" width="800" height="450" horizontalCenter="0">
+        <s:backgroundFill>
+            <s:SolidColor 
+                color="0x000000" 
+                alpha="0"/>
+        </s:backgroundFill>
+		<s:borderStroke>
+			<s:SolidColorStroke color="#FFFFFF"/>
+		</s:borderStroke>
+		<power:PowerButton id="powerButton" buttonMode="true" useHandCursor="true" click="onPowerButtonClick(event)" verticalCenter="0"  horizontalCenter="0" />
+	</s:BorderContainer>
+	
+</s:BorderContainer>

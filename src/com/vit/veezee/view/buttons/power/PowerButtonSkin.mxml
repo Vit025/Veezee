@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+               xmlns:s="library://ns.adobe.com/flex/spark" 
+               xmlns:mx="library://ns.adobe.com/flex/halo" stateChangeComplete="onStateChange(event)">
+	
+	<fx:Metadata>
+	  [HostComponent("com.vit.veezee.view.buttons.power.PowerButton")]
+	</fx:Metadata>
+	
+    <fx:Script>
+        <![CDATA[
+     
+	import com.greensock.plugins.ColorTransformPlugin;
+	import com.greensock.TweenMax;
+	import mx.events.FlexEvent;
+	import mx.events.StateChangeEvent;
+		
+     import flash.filters.BitmapFilterQuality;
+     import flash.filters.BitmapFilterType;
+            
+            [Embed(source="../../../../../../../bin/swf/assetsVeezee.swf", symbol="PowerButtonView")]
+            [Bindable]
+            public var PowerButtonView:Class;
+			
+			private function onStateChange(event:FlexEvent):void
+			{
+				var clr:uint = 0xFFFFFF;
+				switch(this.currentState)
+				{
+					case "down":
+						clr = 0xd9242a;
+						break;
+					
+					case "over":
+						clr = 0xa7d6eb;
+						break;
+						
+					case "disabled":
+						clr = 0xc6cacf;
+						break;
+				}
+				TweenMax.killTweensOf(icon);
+				TweenMax.to(icon, 6, { useFrames:true, tint:clr } );
+			}
+            
+        ]]>
+    </fx:Script>
+	
+    <s:states>
+        <s:State name="up" />   
+        <s:State name="down"/>
+        <s:State name="over"/>
+        <s:State name="disabled"/>
+    </s:states>
+
+	<s:Image id="icon" source="{PowerButtonView}">
+	</s:Image>
+	
+</s:Skin>

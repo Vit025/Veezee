@@ -2,70 +2,26 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                xmlns:s="library://ns.adobe.com/flex/spark"
                xmlns:mx="library://ns.adobe.com/flex/mx"
-			   width = "100%" height = "100%" skinClass="vit.veezee.skins.MainSkin">
-			   
-    <fx:Script>
-        <![CDATA[         
-			import com.greensock.TweenMax;
-			import flash.events.MouseEvent;
-			import flash.geom.Point;
+               xmlns:main="com.vit.veezee.view.main.*"
+               xmlns:power="com.vit.veezee.view.buttons.power.*"
+			   width = "100%" height = "100%" addedToStage="handleAddedToStoge()">
+
+	<fx:Script>
+		<![CDATA[
+			import com.mindscriptact.mvcExpressLogger.MvcExpressLogger;
+			import com.vit.veezee.MainModule;
 			
-			private var isOn:Boolean = false;
-			
-			private function cameraButtonHandler(event:MouseEvent):void
-			{
-				//var p:Point = new Point(cameraButtonView.x, cameraButtonView.y);
-				var p:Point;
-				if (isOn)
-				{
-					TweenMax.to(buttonContainer, 6, { x:((border.width - buttonContainer.width) >> 1), y:((border.height - buttonContainer.height) >> 1), scaleX:1, scaleY:1, useFrames:true, onComplete:onOffTweenComplete } );
-					isOn = false;
+			private function handleAddedToStoge():void {
+				CONFIG::debug {
+					MvcExpressLogger.init(stage);
 				}
-				else
-				{
-					p = new Point(top.width - (buttonContainer.width >> 1), 0);
-					p = top.localToGlobal(p);
-					p = border.globalToLocal(p);
-					buttonContainer.horizontalCenter = buttonContainer.verticalCenter = NaN; 
-					buttonContainer.mouseChildren = false;
-					TweenMax.to(buttonContainer, 6, { x:p.x, y:p.y, scaleX:.5, scaleY:.5, useFrames:true, onComplete:onOnTweenComplete } );
-					isOn = true;
-				}
+				
+				var mainModule:MainModule = new MainModule();
+				mainModule.start(this);
 			}
-			
-			private function onOnTweenComplete():void 
-			{
-				buttonContainer.mouseChildren = true;
-			}
-			
-			private function onOffTweenComplete():void
-			{
-				buttonContainer.mouseChildren = true;
-				buttonContainer.horizontalCenter = buttonContainer.verticalCenter = 0;
-			}
-        ]]>        
-    </fx:Script>
+		]]>
+	</fx:Script>
 	
-	<s:layout>
-		<s:VerticalLayout horizontalAlign="center" />
-	</s:layout>
-	
-	<s:Group id="top" width="800" height="70" horizontalCenter="0">
-		
-	</s:Group>
-	<s:BorderContainer id="border" width="800" height="450" horizontalCenter="0">
-        <s:backgroundFill>
-            <s:SolidColor 
-                color="0x000000" 
-                alpha="0"/>
-        </s:backgroundFill>
-		<s:borderStroke>
-			<s:SolidColorStroke color="#FFFFFF"/>
-		</s:borderStroke>
-		<s:Group id="buttonContainer" horizontalCenter="0" verticalCenter="0">
-			<s:Image id="cameraButtonView" source="@Embed(source='../lib/power_on.png')"/>
-			<s:Group id="cameraButton" width="80" height="90" horizontalCenter="0" verticalCenter="0" buttonMode="true" click="cameraButtonHandler(event)" />
-		</s:Group>
-	</s:BorderContainer>
+	<main:HomeView />
 	
 </s:Application>
